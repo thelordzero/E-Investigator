@@ -19,7 +19,7 @@
         </StackPanel>
         <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Label Content="Raw Header" />
-            <TextBox Name="HeaderTB" Margin="5" HorizontalAlignment="Stretch" Height="150" />
+            <TextBox Name="HeaderTB" Margin="5" HorizontalAlignment="Stretch" Height="150" Text="{Binding Mail}"/>
         </StackPanel>
     </Grid>
 </UserControl>
