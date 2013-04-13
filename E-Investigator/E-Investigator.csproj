@@ -167,6 +167,7 @@
     <Compile Include="EmailInspectorRegion.Designer.cs">
       <DependentUpon>EmailInspectorRegion.cs</DependentUpon>
     </Compile>
+    <Compile Include="OutlookItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

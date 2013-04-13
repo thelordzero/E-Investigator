@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Office.Tools.Ribbon;
+using Outlook = Microsoft.Office.Interop.Outlook;
+using Microsoft.Office.Interop.Outlook;
 
 namespace E_Investigator
 {
@@ -21,7 +23,7 @@ namespace E_Investigator
         /// <param name="e"></param>
         private void bSpam_Click(object sender, RibbonControlEventArgs e)
         {
-            System.Windows.Forms.MessageBox.Show("Spam");
+            ToggleItemCategory("Spam");
         }
 
         /// <summary>
@@ -31,7 +33,7 @@ namespace E_Investigator
         /// <param name="e"></param>
         private void bPossMal_Click(object sender, RibbonControlEventArgs e)
         {
-            System.Windows.Forms.MessageBox.Show("Possible Malicious");
+            ToggleItemCategory("Possible Malicious");
         }
 
         /// <summary>
@@ -41,7 +43,7 @@ namespace E_Investigator
         /// <param name="e"></param>
         private void bVerMal_Click(object sender, RibbonControlEventArgs e)
         {
-            System.Windows.Forms.MessageBox.Show("Verified Malicious");
+            ToggleItemCategory("Verified Malicious");
         }
 
         /// <summary>
@@ -51,7 +53,7 @@ namespace E_Investigator
         /// <param name="e"></param>
         private void bPoss_Click(object sender, RibbonControlEventArgs e)
         {
-            System.Windows.Forms.MessageBox.Show("Possible");
+            ToggleItemCategory("Possible Targeted");
         }
 
         /// <summary>
@@ -61,7 +63,17 @@ namespace E_Investigator
         /// <param name="e"></param>
         private void bVer_Click(object sender, RibbonControlEventArgs e)
         {
-            System.Windows.Forms.MessageBox.Show("Verified");
+            ToggleItemCategory("Verified Targeted");
+        }
+
+        /// <summary>
+        /// Categorizes selected message(s) as having been inspected and clean.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void bClean_Click(object sender, RibbonControlEventArgs e)
+        {
+            ToggleItemCategory("Clean");
         }
 
         /// <summary>
@@ -85,16 +97,58 @@ namespace E_Investigator
         }
         #endregion
 
+        private void ToggleItemCategory(string category)
+        {
+            Inspector inspector = Globals.ThisAddIn.Application.ActiveInspector();
+            if (inspector != null)
+            {
+                if (inspector.CurrentItem != null)
+                {
+                    if (inspector.CurrentItem is MailItem)
+                    {
+                        MailItem _mailItem = inspector.CurrentItem;
+
+                        if (_mailItem.Categories != null)
+                        {
+                            if (_mailItem.Categories.Contains(category))
+                                _mailItem.Categories = _mailItem.Categories.Replace(string.Format("{0}, ", category), "").Replace(string.Format("{0}", category), "");
+                            else
+                                _mailItem.Categories = string.Format("{0}, {1}", category, _mailItem.Categories);
+                        }
+                        else
+                            _mailItem.Categories = category;
+                    }
+                }
+            }
+        }
+
         private List<Microsoft.Office.Interop.Outlook.Categories> GetCategories()
         {
-            Microsoft.Office.Interop.Outlook.NameSpace nameSpace = Globals.ThisAddIn.Application.GetNamespace("MAPI");
-            List<Microsoft.Office.Interop.Outlook.Categories> catList = null;
+            Outlook.NameSpace nameSpace = Globals.ThisAddIn.Application.GetNamespace("MAPI");
+            List<Outlook.Categories> catList = null;
 
-            foreach (Microsoft.Office.Interop.Outlook.Categories cat in nameSpace.Categories)
+            foreach (Outlook.Categories cat in nameSpace.Categories)
             {
                 catList.Add(cat);
             }
             return catList;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="subjectEmail">Subject of the email.</param>
+        /// <param name="toEmail">Who the email is to (semi-colon delimited).</param>
+        /// <param name="bodyEmail">Body of the email.</param>
+        /// <param name="attachment">Boolean that determines if selected object is attached to the email.</param>
+        private void CreateEmailItem(string subjectEmail, string toEmail, string bodyEmail, bool attachment)
+        {
+            Outlook.MailItem eMail = (Outlook.MailItem)Globals.ThisAddIn.Application.CreateItem(Outlook.OlItemType.olMailItem);
+            eMail.Subject = subjectEmail;
+            eMail.To = toEmail;
+            eMail.Body = bodyEmail;
+            eMail.Importance = Outlook.OlImportance.olImportanceLow;
+            ((Outlook._MailItem)eMail).Send();
+        }        
     }
 }

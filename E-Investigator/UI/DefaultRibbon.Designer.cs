@@ -47,6 +47,7 @@
             this.bFOPESearch = this.Factory.CreateRibbonButton();
             this.group3 = this.Factory.CreateRibbonGroup();
             this.bInspect = this.Factory.CreateRibbonButton();
+            this.bClean = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
             this.group2.SuspendLayout();
@@ -69,6 +70,7 @@
             this.group1.Items.Add(this.separator1);
             this.group1.Items.Add(this.bPoss);
             this.group1.Items.Add(this.bVer);
+            this.group1.Items.Add(this.bClean);
             this.group1.Label = "Phishing";
             this.group1.Name = "group1";
             // 
@@ -143,6 +145,13 @@
             this.bInspect.ShowImage = true;
             this.bInspect.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.bInspect_Click);
             // 
+            // bClean
+            // 
+            this.bClean.Label = "Clean";
+            this.bClean.Name = "bClean";
+            this.bClean.ShowImage = true;
+            this.bClean.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.bClean_Click);
+            // 
             // DefaultRibbon
             // 
             this.Name = "DefaultRibbon";
@@ -174,6 +183,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton bFOPESearch;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup group3;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton bInspect;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton bClean;
     }
 
     partial class ThisRibbonCollection
