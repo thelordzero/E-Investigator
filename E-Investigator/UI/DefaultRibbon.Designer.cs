@@ -37,17 +37,18 @@
             Microsoft.Office.Tools.Ribbon.RibbonDialogLauncher ribbonDialogLauncherImpl1 = this.Factory.CreateRibbonDialogLauncher();
             this.tab1 = this.Factory.CreateRibbonTab();
             this.group1 = this.Factory.CreateRibbonGroup();
+            this.separator1 = this.Factory.CreateRibbonSeparator();
+            this.group2 = this.Factory.CreateRibbonGroup();
+            this.group3 = this.Factory.CreateRibbonGroup();
             this.bSpam = this.Factory.CreateRibbonButton();
             this.bPossMal = this.Factory.CreateRibbonButton();
             this.bVerMal = this.Factory.CreateRibbonButton();
-            this.separator1 = this.Factory.CreateRibbonSeparator();
             this.bPoss = this.Factory.CreateRibbonButton();
             this.bVer = this.Factory.CreateRibbonButton();
-            this.group2 = this.Factory.CreateRibbonGroup();
-            this.bFOPESearch = this.Factory.CreateRibbonButton();
-            this.group3 = this.Factory.CreateRibbonGroup();
-            this.bInspect = this.Factory.CreateRibbonButton();
             this.bClean = this.Factory.CreateRibbonButton();
+            this.bFOPESearch = this.Factory.CreateRibbonButton();
+            this.bInspect = this.Factory.CreateRibbonButton();
+            this.separator2 = this.Factory.CreateRibbonSeparator();
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
             this.group2.SuspendLayout();
@@ -64,15 +65,34 @@
             // 
             // group1
             // 
+            this.group1.Items.Add(this.bClean);
             this.group1.Items.Add(this.bSpam);
+            this.group1.Items.Add(this.separator2);
             this.group1.Items.Add(this.bPossMal);
             this.group1.Items.Add(this.bVerMal);
             this.group1.Items.Add(this.separator1);
             this.group1.Items.Add(this.bPoss);
             this.group1.Items.Add(this.bVer);
-            this.group1.Items.Add(this.bClean);
             this.group1.Label = "Phishing";
             this.group1.Name = "group1";
+            // 
+            // separator1
+            // 
+            this.separator1.Name = "separator1";
+            // 
+            // group2
+            // 
+            this.group2.DialogLauncher = ribbonDialogLauncherImpl1;
+            this.group2.Items.Add(this.bFOPESearch);
+            this.group2.Label = "FOPE";
+            this.group2.Name = "group2";
+            // 
+            // group3
+            // 
+            this.group3.Items.Add(this.bInspect);
+            this.group3.Label = "Detail(s)";
+            this.group3.Name = "group3";
+            this.group3.Visible = false;
             // 
             // bSpam
             // 
@@ -95,30 +115,26 @@
             this.bVerMal.ShowImage = true;
             this.bVerMal.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.bVerMal_Click);
             // 
-            // separator1
-            // 
-            this.separator1.Name = "separator1";
-            // 
             // bPoss
             // 
-            this.bPoss.Label = "Possible";
+            this.bPoss.Label = "Possible Targeted";
             this.bPoss.Name = "bPoss";
             this.bPoss.ShowImage = true;
             this.bPoss.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.bPoss_Click);
             // 
             // bVer
             // 
-            this.bVer.Label = "Verified";
+            this.bVer.Label = "Verified Targeted";
             this.bVer.Name = "bVer";
             this.bVer.ShowImage = true;
             this.bVer.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.bVer_Click);
             // 
-            // group2
+            // bClean
             // 
-            this.group2.DialogLauncher = ribbonDialogLauncherImpl1;
-            this.group2.Items.Add(this.bFOPESearch);
-            this.group2.Label = "FOPE";
-            this.group2.Name = "group2";
+            this.bClean.Label = "Clean";
+            this.bClean.Name = "bClean";
+            this.bClean.ShowImage = true;
+            this.bClean.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.bClean_Click);
             // 
             // bFOPESearch
             // 
@@ -129,13 +145,6 @@
             this.bFOPESearch.ShowImage = true;
             this.bFOPESearch.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.bFOPESearch_Click);
             // 
-            // group3
-            // 
-            this.group3.Items.Add(this.bInspect);
-            this.group3.Label = "Detail(s)";
-            this.group3.Name = "group3";
-            this.group3.Visible = false;
-            // 
             // bInspect
             // 
             this.bInspect.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
@@ -145,12 +154,9 @@
             this.bInspect.ShowImage = true;
             this.bInspect.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.bInspect_Click);
             // 
-            // bClean
+            // separator2
             // 
-            this.bClean.Label = "Clean";
-            this.bClean.Name = "bClean";
-            this.bClean.ShowImage = true;
-            this.bClean.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.bClean_Click);
+            this.separator2.Name = "separator2";
             // 
             // DefaultRibbon
             // 
@@ -184,6 +190,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup group3;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton bInspect;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton bClean;
+        internal Microsoft.Office.Tools.Ribbon.RibbonSeparator separator2;
     }
 
     partial class ThisRibbonCollection

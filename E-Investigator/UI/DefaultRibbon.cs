@@ -93,12 +93,20 @@ namespace E_Investigator
         /// <param name="e"></param>
         private void bFOPESearch_Click(object sender, RibbonControlEventArgs e)
         {
+
             System.Windows.Forms.MessageBox.Show("Searching");
         }
         #endregion
 
+        /// <summary>
+        /// This method toggles the category that is provided to it.
+        /// </summary>
+        /// <param name="category">This is </param>
         private void ToggleItemCategory(string category)
         {
+            Outlook.Explorer explorer = Globals.ThisAddIn.Application.ActiveExplorer();
+            Outlook.Selection selection = explorer.Selection;
+
             Inspector inspector = Globals.ThisAddIn.Application.ActiveInspector();
             if (inspector != null)
             {
@@ -117,21 +125,33 @@ namespace E_Investigator
                         }
                         else
                             _mailItem.Categories = category;
+
+                        _mailItem.Save();
                     }
                 }
             }
-        }
-
-        private List<Microsoft.Office.Interop.Outlook.Categories> GetCategories()
-        {
-            Outlook.NameSpace nameSpace = Globals.ThisAddIn.Application.GetNamespace("MAPI");
-            List<Outlook.Categories> catList = null;
-
-            foreach (Outlook.Categories cat in nameSpace.Categories)
+            else if (selection != null)
             {
-                catList.Add(cat);
+                for (int i = 1; i <= selection.Count; i++)
+                {
+                    if (selection[i] is MailItem)
+                    {
+                        MailItem _mailItem = selection[i];
+
+                        if (_mailItem.Categories != null)
+                        {
+                            if (_mailItem.Categories.Contains(category))
+                                _mailItem.Categories = _mailItem.Categories.Replace(string.Format("{0}, ", category), "").Replace(string.Format("{0}", category), "");
+                            else
+                                _mailItem.Categories = string.Format("{0}, {1}", category, _mailItem.Categories);
+                        }
+                        else
+                            _mailItem.Categories = category;
+
+                        _mailItem.Save();
+                    }
+                }
             }
-            return catList;
         }
 
         /// <summary>
